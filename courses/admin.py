@@ -21,3 +21,4 @@ class CourseAdmin(admin.ModelAdmin):
 
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Course, CourseAdmin)
+admin.site.register(Module)

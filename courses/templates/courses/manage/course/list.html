@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+
+    </style>
+  </head>
+  <body>
+
+    {% for i in object_list.all %}
+      <p>title : {{i.title}}</p>
+      <p>
+      <a href="{% url 'courses:course_edit' pk=i.id %}">edit</a>
+      <a href="{% url 'courses:course_delete' pk=i.id %}">delete</a>
+      <a href="{% url 'courses:course_module_update'  pk=i.id %}">edit module</a>
+      {% if course.modules.count > 0 %}
+        <a href="{% url 'courses:module_content_list' id=course.modules.first.id}"> Module</a>
+      {% endif %}
+      </p>
+    {% empty %}
+      <p>you havent created any course yet</p>
+    {% endfor %}
+    <p>
+      <a href="{% url 'courses:course_create' %}" >create new course</a>
+    </p>
+
+  </body>
+</html>

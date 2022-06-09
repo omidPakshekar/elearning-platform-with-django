@@ -1,0 +1,10 @@
+
+<h1>Course Modules</h1>
+
+
+<form class="" action="" method="post">
+  {{ formset.as_p }}
+  {{ formset.management_form }}
+  {% csrf_token %}
+  <input type="submit" name="" value="save modules">
+</form>

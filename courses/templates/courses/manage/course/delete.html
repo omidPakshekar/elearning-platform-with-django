@@ -1,0 +1,10 @@
+
+
+<h1>Delete Course "{{ object.title }}"</h1>
+<div class="">
+  <form class="" action="" method="post">
+    {% csrf_token %}
+    <p>are you sure you want to delete "{{ object }}"</p>
+    <input type="submit" name="" value="confirm"> 
+  </form>
+</div>

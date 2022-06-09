@@ -72,13 +72,13 @@ class ItemBase(models.Model):
         return self.title
 
 class Text(ItemBase):
-    content      = models.TextField()
+    content  = models.TextField()
 
 class Image(ItemBase):
-    file         = models.FileField(upload_to='images')
+    file     = models.FileField(upload_to='images')
 
 class File(ItemBase):
-    file         = models.FileField(upload_to = 'file')
+    file     = models.FileField(upload_to = 'file')
 
 class Video(ItemBase):
-    url           = models.URLField()
+    url      = models.URLField()
