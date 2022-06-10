@@ -1,0 +1,58 @@
+{% load course %}
+
+<div class="">
+  {% with course=module.course %}
+    <h1>Course "{{ course.title}}"</h1>
+    <ul>
+      {% for m in course.modules.all %}
+        <li data-id="{{ m.id }}" >
+          <a href="{% url 'courses:module_content_list' module_id=m.id %}">
+            <span>
+              Module <span>{{ m.order | add:1 }}</span>
+            </span>
+            <br>
+            {{ m.title }}
+          </a>
+        </li>
+      {% empty %}
+        <li>no modueks yet</li>
+      {% endfor %}
+  </ul>
+  <p><a href="{% url 'courses:course_module_update' pk=course.id %}"></a></p>
+
+  <div class="">
+    <h2>Module {{ module.order|add:1 }}: {{module.title}}</h2>
+    <h3>module contents</h3>
+    <div class="">
+      {{ module.contents }}
+      {% for content in module.contents.all %}
+
+        <div class="" data-id="{{ content.id }}">
+          {% with item=content.item %}
+            <p>{{ item }}</p>
+
+            <a href="{% url 'courses:module_content_update' module_id=module.id model_name=item|model_name id=item.id %}">Edit</a>
+            <form class="" action="{% url 'courses:module_content_delete' id=content.id %}" method="post">
+                <input type="submit" name="" value="Delete">
+                {% csrf_token %}
+            </form>
+          {% endwith %}
+        </div>
+        {% empty %}
+          <p>this module has no content yet.</p>
+        {% endfor %}
+    </div>
+    <hr>
+    <h3>add new content:</h3>
+    <ul>
+      <li><a href="{% url 'courses:module_content_create' module_id=module.id model_name='text' %}">Text</a></li>
+      <li><a href="{% url 'courses:module_content_create' module_id=module.id model_name='image' %}">Image</a></li>
+      <li><a href="{% url 'courses:module_content_create' module_id=module.id  model_name='video' %}">video</a></li>
+      <li><a href="{% url 'courses:module_content_create' module_id=module.id  model_name='file' %}">File</a></li>
+
+    </ul>
+
+  </div>
+
+  {% endwith %}
+</div>
