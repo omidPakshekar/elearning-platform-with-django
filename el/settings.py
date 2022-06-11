@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my app
     'courses',
+    'students',
     # third packageparty
     'allauth',
     'allauth.account',
@@ -150,4 +151,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-LOGIN_REDIRECT_URL = '/'
+
+from django.urls import reverse_lazy, reverse
+LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')

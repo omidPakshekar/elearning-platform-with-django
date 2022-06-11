@@ -4,13 +4,13 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.views.generic import ( ListView, DetailView,
                     TemplateView, CreateView, UpdateView,DeleteView)
-from .forms import ModuleFormSet
 from django.forms.models import modelform_factory
+from django.views.generic.base import TemplateResponseMixin
+from .forms import ModuleFormSet
 from django.apps import apps
 from django.views import View
 from django.db.models import Count
-from django.views.generic.base import TemplateResponseMixin
-
+from students.forms import CourseEnrollForm
 
 class ManageCourseListView(ListView):
     model = Course
@@ -129,24 +129,32 @@ class ModuleContentListView(TemplateResponseMixin, View):
         module = get_object_or_404(Module, id = module_id, course__owner = request.user)
         return self.render_to_response({'module': module})
 
+
 class CourseListView(TemplateResponseMixin, View):
     model = Course
     template_name = 'courses/course/list.html'
 
     def get(self, request, subject=None):
-        subjects = Subject.objects.annoate(
+        subjects = Subject.objects.annotate(
                             total_course=Count('courses')
                         )
-        courses = Course.objects.annoate(
+        courses = Course.objects.annotate(
                 total_modules = Count('modules')
             )
-        if subjects:
+        if subject:
             subject = get_object_or_404(Subject, slug=subject)
             courses = courses.filter(subject=subject)
-        return self.render_to_response(
-                {
+        return self.render_to_response({
                     'subjects' : subjects,
                     'subject'  : Subject,
-                    'courses'  : courses
-                }
-            )
+                    'courses'  : courses })
+
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'courses/course/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseDetailView, self).get_context_data(**kwargs)
+        context['enroll_form'] = CourseEnrollForm(initial={'course' : self.object})
+        return context

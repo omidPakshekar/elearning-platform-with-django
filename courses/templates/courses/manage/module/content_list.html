@@ -8,7 +8,7 @@
         <li data-id="{{ m.id }}" >
           <a href="{% url 'courses:module_content_list' module_id=m.id %}">
             <span>
-              Module <span>{{ m.order | add:1 }}</span>
+              Module <span>{{ m.order| add:1 }}</span>
             </span>
             <br>
             {{ m.title }}

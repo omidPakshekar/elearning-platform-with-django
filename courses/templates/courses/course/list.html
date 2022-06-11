@@ -1,0 +1,33 @@
+<div class="">
+  <h3>Subject</h3>
+
+  <ul>
+    <li>
+      <a href="{% url 'course_list' %}"></a>
+    </li>
+      {% for s in subjects %}
+
+        <li>
+
+            <a href="{% url 'courses:course_list_subject' subject=s.slug  %}">
+              {{ s.title }}
+              <br><span>{{ s.total_course }} Courses</span>
+            </a>
+        </li>
+
+      {% endfor %}
+  </ul>
+</div>
+
+<div class="">
+  {% for course in courses %}
+    {% with subject=course.subject %}
+      <h3><a href="{% url 'courses:course_detail' slug=course.slug %}">{{ course.title }}</a></h3>
+      <p>
+        <a href="{% url 'courses:course_list_subject' subject=subject.slug  %}">{{ subject }}</a>
+        {{ course.total_modules }} module.
+        instructor : {{ course.owner.get_full_name}}
+      </p>
+    {% endwith %}
+  {% endfor %}
+</div>
