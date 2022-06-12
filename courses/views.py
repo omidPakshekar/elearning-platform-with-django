@@ -138,6 +138,7 @@ class CourseListView(TemplateResponseMixin, View):
         subjects = Subject.objects.annotate(
                             total_course=Count('courses')
                         )
+        
         courses = Course.objects.annotate(
                 total_modules = Count('modules')
             )
